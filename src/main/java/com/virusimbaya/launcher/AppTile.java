@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class AppTile extends JButton {
-    public AppTile(String label, String icon, Color accent) {
+    public AppTile(String label, String icon, Color accent, Runnable action) {
         super();
         setLayout(new BorderLayout(8, 8));
         setOpaque(true);
@@ -18,7 +18,7 @@ public class AppTile extends JButton {
         setForeground(new Color(245, 247, 255));
 
         JLabel iconLabel = new JLabel(icon, SwingConstants.CENTER);
-        iconLabel.setFont(new Font("SansSerif", Font.PLAIN, 27));
+        iconLabel.setFont(new Font("SansSerif", Font.PLAIN, 28));
         iconLabel.setForeground(accent);
 
         JLabel titleLabel = new JLabel(label, SwingConstants.CENTER);
@@ -27,7 +27,13 @@ public class AppTile extends JButton {
 
         add(iconLabel, BorderLayout.CENTER);
         add(titleLabel, BorderLayout.SOUTH);
-        setPreferredSize(new Dimension(180, 130));
+        setPreferredSize(new Dimension(190, 140));
+
+        addActionListener(event -> {
+            if (action != null) {
+                action.run();
+            }
+        });
     }
 
     private Border createTileBorder(Color accent) {
@@ -36,3 +42,5 @@ public class AppTile extends JButton {
         return new CompoundBorder(lineBorder, padding);
     }
 }
+
+

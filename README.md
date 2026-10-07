@@ -1,6 +1,6 @@
 # Virusi Mbaya Launcher
 
-A Java-based custom theme launcher mockup with a vivid neon interface, app tiles, and theme switching.
+A full Java Swing launcher application with a custom neon theme, app grid, search bar, theme picker, and interactive app tiles.
 
 ## Architecture Overview
 
@@ -8,11 +8,11 @@ A Java-based custom theme launcher mockup with a vivid neon interface, app tiles
 flowchart LR
     A[User] --> B[Launcher Shell]
     B --> C[Theme Manager]
-    B --> D[Search & Navigation]
+    B --> D[Search Bar]
     B --> E[App Grid]
-    C --> F[Color Palette]
-    C --> G[Wallpaper Style]
-    D --> H[Quick Actions]
+    C --> F[Neon Theme]
+    C --> G[Aurora Theme]
+    C --> H[Voltage Gold Theme]
     E --> I[Messages]
     E --> J[Camera]
     E --> K[Music]
@@ -23,10 +23,11 @@ flowchart LR
 
 ## Features
 
-- Custom theme switching
+- Custom color themes
 - Rounded app tiles
-- Search panel
-- Neon/glass modern styling
+- Search field and launcher look
+- Real-time clock
+- App launch popups
 - Java Swing interface
 
 ## Run
@@ -36,7 +37,7 @@ mvn clean package
 java -jar target/virusi-mbaya-launcher-1.0.0.jar
 ```
 
-Or directly:
+Or:
 
 ```bash
 mvn exec:java

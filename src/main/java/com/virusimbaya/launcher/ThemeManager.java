@@ -18,8 +18,8 @@ public class ThemeManager {
     private final AppTheme auroraTheme = new AppTheme(
             "Aurora Glow",
             new Color(12, 22, 28),
-            new Color(24, 108, 110),
-            new Color(16, 38, 52),
+            new Color(22, 91, 92),
+            new Color(16, 35, 49),
             new Color(99, 255, 205),
             new Color(238, 247, 255),
             new Color(149, 241, 255),
@@ -108,3 +108,6 @@ public class ThemeManager {
         }
     }
 }
+
+
+

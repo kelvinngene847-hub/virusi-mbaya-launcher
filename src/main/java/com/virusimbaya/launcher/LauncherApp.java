@@ -5,49 +5,52 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class LauncherApp extends JFrame {
     private final ThemeManager themeManager = new ThemeManager();
-    private final GradientPanel rootPanel;
-    private final JPanel appGrid;
-    private final JPanel themeStrip;
-    private final JLabel titleLabel;
-    private final JLabel dateLabel;
+    private final GradientPanel rootPanel = new GradientPanel(themeManager.getCurrentTheme());
+    private final JPanel appGrid = new JPanel(new GridLayout(0, 4, 18, 18));
+    private final JPanel themeStrip = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+    private final JLabel greetingLabel = new JLabel("Good evening");
+    private final JLabel clockLabel = new JLabel();
+    private final JTextField searchField = new JTextField("Search apps, contacts, music");
+    private final Timer clockTimer;
 
     public LauncherApp() {
         super("Virusi Mbaya Launcher");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1200, 760);
+        setSize(1280, 780);
         setLocationRelativeTo(null);
         setResizable(false);
+        setUndecorated(false);
 
-        rootPanel = new GradientPanel(themeManager.getCurrentTheme());
-        rootPanel.setLayout(new BorderLayout(16, 16));
-        rootPanel.setBorder(new EmptyBorder(24, 24, 24, 24));
+        rootPanel.setLayout(new BorderLayout(18, 18));
+        rootPanel.setBorder(new EmptyBorder(18, 18, 18, 18));
+        rootPanel.setOpaque(false);
 
-        JPanel topBar = buildTopBar();
-        rootPanel.add(topBar, BorderLayout.NORTH);
+        appGrid.setOpaque(false);
+        themeStrip.setOpaque(false);
+
+        JPanel statusBar = buildStatusBar();
+        rootPanel.add(statusBar, BorderLayout.NORTH);
 
         JPanel centerPanel = new JPanel(new BorderLayout(18, 18));
         centerPanel.setOpaque(false);
 
-        JPanel headingPanel = new JPanel(new BorderLayout(8, 8));
+        JPanel headingPanel = new JPanel(new BorderLayout(10, 10));
         headingPanel.setOpaque(false);
 
-        titleLabel = new JLabel("Virusi Mbaya");
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 34));
-        titleLabel.setForeground(themeManager.getCurrentTheme().getText());
+        greetingLabel.setFont(new Font("SansSerif", Font.BOLD, 34));
+        greetingLabel.setForeground(themeManager.getCurrentTheme().getText());
 
-        dateLabel = new JLabel(LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " • 24°C");
-        dateLabel.setFont(new Font("SansSerif", Font.PLAIN, 14));
-        dateLabel.setForeground(themeManager.getCurrentTheme().getMutedText());
+        clockLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        clockLabel.setForeground(themeManager.getCurrentTheme().getMutedText());
+        updateClock();
 
-        headingPanel.add(titleLabel, BorderLayout.WEST);
-        headingPanel.add(dateLabel, BorderLayout.EAST);
+        headingPanel.add(greetingLabel, BorderLayout.WEST);
+        headingPanel.add(clockLabel, BorderLayout.EAST);
         centerPanel.add(headingPanel, BorderLayout.NORTH);
 
-        JTextField searchField = new JTextField("Search apps, contacts, music");
         searchField.setFont(new Font("SansSerif", Font.PLAIN, 16));
         searchField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(255, 255, 255, 80), 1, true),
@@ -58,52 +61,50 @@ public class LauncherApp extends JFrame {
         searchField.setCaretColor(themeManager.getCurrentTheme().getAccent());
         centerPanel.add(searchField, BorderLayout.CENTER);
 
-        themeStrip = new JPanel(new FlowLayout(FlowLayout.LEFT, 12, 0));
-        themeStrip.setOpaque(false);
         populateThemeButtons();
         centerPanel.add(themeStrip, BorderLayout.SOUTH);
 
-        appGrid = new JPanel(new GridLayout(0, 4, 18, 18));
-        appGrid.setOpaque(false);
-        populateAppTiles();
-
         rootPanel.add(centerPanel, BorderLayout.CENTER);
+
+        populateAppTiles();
         rootPanel.add(appGrid, BorderLayout.SOUTH);
 
         setContentPane(rootPanel);
+
+        clockTimer = new Timer(1000, event -> updateClock());
+        clockTimer.start();
     }
 
-    private JPanel buildTopBar() {
+    private JPanel buildStatusBar() {
         JPanel bar = new JPanel(new BorderLayout());
         bar.setOpaque(false);
 
-        JPanel leftStatus = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 0));
-        leftStatus.setOpaque(false);
-
-        for (Color dotColor : List.of(new Color(255, 100, 100), new Color(255, 200, 94), new Color(72, 196, 116))) {
-            JLabel dot = new JLabel("●");
-            dot.setForeground(dotColor);
-            dot.setFont(new Font("SansSerif", Font.BOLD, 18));
-            leftStatus.add(dot);
-        }
-
+        JPanel left = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        left.setOpaque(false);
+        left.add(statusDot(new Color(255, 114, 118)));
+        left.add(statusDot(new Color(255, 214, 102)));
+        left.add(statusDot(new Color(88, 216, 133)));
         JLabel signal = new JLabel("5G");
-        signal.setForeground(themeManager.getCurrentTheme().getText());
         signal.setFont(new Font("SansSerif", Font.BOLD, 12));
-        leftStatus.add(signal);
+        signal.setForeground(themeManager.getCurrentTheme().getText());
+        left.add(signal);
+        bar.add(left, BorderLayout.WEST);
 
-        bar.add(leftStatus, BorderLayout.WEST);
-
-        JPanel rightStatus = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
-        rightStatus.setOpaque(false);
-
+        JPanel right = new JPanel(new FlowLayout(FlowLayout.RIGHT, 12, 0));
+        right.setOpaque(false);
         JLabel battery = new JLabel("86% ▣");
-        battery.setForeground(themeManager.getCurrentTheme().getText());
         battery.setFont(new Font("SansSerif", Font.BOLD, 12));
-        rightStatus.add(battery);
-
-        bar.add(rightStatus, BorderLayout.EAST);
+        battery.setForeground(themeManager.getCurrentTheme().getText());
+        right.add(battery);
+        bar.add(right, BorderLayout.EAST);
         return bar;
+    }
+
+    private JLabel statusDot(Color color) {
+        JLabel dot = new JLabel("●");
+        dot.setForeground(color);
+        dot.setFont(new Font("SansSerif", Font.BOLD, 17));
+        return dot;
     }
 
     private void populateThemeButtons() {
@@ -129,23 +130,15 @@ public class LauncherApp extends JFrame {
 
     private void populateAppTiles() {
         appGrid.removeAll();
-        ThemeManager.AppTheme current = themeManager.getCurrentTheme();
-
-        String[][] apps = {
-                {"Messages", "✉"},
-                {"Camera", "📷"},
-                {"Music", "♫"},
-                {"Settings", "⚙"},
-                {"Gallery", "🖼"},
-                {"Contacts", "☎"},
-                {"Weather", "☀"},
-                {"Maps", "📍"}
-        };
-
-        for (String[] app : apps) {
-            appGrid.add(new AppTile(app[0], app[1], current.getAccent()));
+        for (AppData.AppEntry app : AppData.getApplications()) {
+            AppTile tile = new AppTile(
+                    app.getName(),
+                    app.getIcon(),
+                    themeManager.getCurrentTheme().getAccent(),
+                    () -> JOptionPane.showMessageDialog(this, app.getName() + " launched")
+            );
+            appGrid.add(tile);
         }
-
         appGrid.revalidate();
         appGrid.repaint();
     }
@@ -153,30 +146,19 @@ public class LauncherApp extends JFrame {
     private void applyTheme(ThemeManager.AppTheme theme) {
         themeManager.setCurrentTheme(theme);
         rootPanel.setTheme(theme);
-
-        titleLabel.setForeground(theme.getText());
-        dateLabel.setForeground(theme.getMutedText());
-        searchFieldStyle();
-
+        greetingLabel.setForeground(theme.getText());
+        clockLabel.setForeground(theme.getMutedText());
+        searchField.setForeground(theme.getText());
+        searchField.setCaretColor(theme.getAccent());
+        searchField.setBackground(new Color(12, 18, 28, 180));
         populateThemeButtons();
         populateAppTiles();
-        rootPanel.revalidate();
-        rootPanel.repaint();
+        repaint();
     }
 
-    private void searchFieldStyle() {
-        Component[] components = rootPanel.getComponents();
-        for (Component component : components) {
-            if (component instanceof JPanel panel) {
-                for (Component child : panel.getComponents()) {
-                    if (child instanceof JTextField field) {
-                        field.setForeground(themeManager.getCurrentTheme().getText());
-                        field.setCaretColor(themeManager.getCurrentTheme().getAccent());
-                        field.setBackground(new Color(12, 18, 28, 180));
-                    }
-                }
-            }
-        }
+    private void updateClock() {
+        String time = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm"));
+        clockLabel.setText(time + " • 24°C");
     }
 
     public static void main(String[] args) {
@@ -191,7 +173,6 @@ public class LauncherApp extends JFrame {
 
         public GradientPanel(ThemeManager.AppTheme theme) {
             this.theme = theme;
-            setOpaque(false);
         }
 
         public void setTheme(ThemeManager.AppTheme theme) {
@@ -212,3 +193,7 @@ public class LauncherApp extends JFrame {
         }
     }
 }
+
+
+
+
