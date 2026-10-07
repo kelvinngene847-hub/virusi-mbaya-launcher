@@ -42,5 +42,3 @@ public class AppTile extends JButton {
         return new CompoundBorder(lineBorder, padding);
     }
 }
-
-

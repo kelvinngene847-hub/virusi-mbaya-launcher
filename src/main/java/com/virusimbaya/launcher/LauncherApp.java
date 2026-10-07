@@ -22,7 +22,6 @@ public class LauncherApp extends JFrame {
         setSize(1280, 780);
         setLocationRelativeTo(null);
         setResizable(false);
-        setUndecorated(false);
 
         rootPanel.setLayout(new BorderLayout(18, 18));
         rootPanel.setBorder(new EmptyBorder(18, 18, 18, 18));
@@ -193,7 +192,3 @@ public class LauncherApp extends JFrame {
         }
     }
 }
-
-
-
-
