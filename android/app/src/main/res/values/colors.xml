@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#0C121C</color>
-    <color name="primary_dark">#090C14</color>
-    <color name="accent">#FF6C82</color>
-    <color name="background">#0C121C</color>
-    <color name="text">#F2F6FF</color>
-    <color name="muted_text">#A5B4FC</color>
+    <color name="background_dark">#0C121C</color>
+    <color name="accent_pink">#FF6C82</color>
+    <color name="text_white">#F2F6FF</color>
+    <color name="muted_blue">#A5B4FC</color>
 </resources>

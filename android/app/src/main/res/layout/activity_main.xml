@@ -3,137 +3,90 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#0C121C">
+    android:background="#0C121C"
+    android:padding="16dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <LinearLayout
-            android:id="@+id/statusLeft"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="●"
-                android:textColor="#FF7276"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="●"
-                android:textColor="#FFD662"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="4dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="●"
-                android:textColor="#58D885"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5G"
-                android:textColor="#F2F6FF"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-        </LinearLayout>
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
             android:orientation="horizontal"
             android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/batteryLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="86% ▣"
-                android:textColor="#F2F6FF"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+            <TextView android:text="●" android:textColor="#FF7276" android:textStyle="bold" android:textSize="16sp" android:layout_marginEnd="4dp"/>
+            <TextView android:text="●" android:textColor="#FFD662" android:textStyle="bold" android:textSize="16sp" android:layout_marginEnd="4dp"/>
+            <TextView android:text="●" android:textColor="#58D885" android:textStyle="bold" android:textSize="16sp" android:layout_marginEnd="8dp"/>
+            <TextView android:text="5G" android:textColor="#F2F6FF" android:textStyle="bold" android:textSize="12sp"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="86% ▣"
+            android:textColor="#F2F6FF"
+            android:textStyle="bold"
+            android:textSize="12sp"/>
     </RelativeLayout>
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/greetingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Good evening"
+        android:textColor="#F2F6FF"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/clockLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00 • 24°C"
+        android:textColor="#A5B4FC"
+        android:textSize="14sp"
+        android:layout_marginBottom="12dp"/>
+
+    <EditText
+        android:id="@+id/searchField"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="52dp"
+        android:hint="Search apps, contacts, music"
+        android:textColorHint="#A5B4FC"
+        android:textColor="#F2F6FF"
+        android:background="@drawable/search_background"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:layout_marginBottom="12dp"/>
 
-        <TextView
-            android:id="@+id/greetingLabel"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/themeContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Good evening"
-            android:textColor="#F2F6FF"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
-
-        <TextView
-            android:id="@+id/clockLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="00:00 • 24°C"
-            android:textColor="#A5B4FC"
-            android:textSize="14sp" />
-
-        <EditText
-            android:id="@+id/searchField"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Search apps, contacts, music"
-            android:textColorHint="#A5B4FC"
-            android:textColor="#F2F6FF"
-            android:background="@drawable/search_background"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="12dp" />
-
-        <HorizontalScrollView
-            android:id="@+id/themeScroll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none">
-
-            <LinearLayout
-                android:id="@+id/themeContainer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical" />
-        </HorizontalScrollView>
-
-    </LinearLayout>
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
 
     <GridView
         android:id="@+id/appGrid"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:numColumns="3"
         android:horizontalSpacing="12dp"
         android:verticalSpacing="12dp"
-        android:padding="12dp" />
+        android:layout_marginTop="12dp" />
 
 </LinearLayout>
